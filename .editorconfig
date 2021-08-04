@@ -1,0 +1,10 @@
+root = true
+
+[*]
+indent_style = space
+
+[*.{c,cpp,hpp,h}]
+indent_size = 2
+
+[*.cs]
+indent_size = 4
