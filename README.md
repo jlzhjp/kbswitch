@@ -1,6 +1,6 @@
 ﻿# kbswitch
 
-> a simple utility that help you switch keyboard layout in Windows.
+> a simple utility that helps you switch keyboard layout in Windows
 
 ## Usage
 
@@ -9,19 +9,23 @@
 - #### `list`
 list all installed keyboard layouts
 
-* ##### Exmaple:
 
+- #### `set <number>`
+
+switch to the given keyboard layout  
+**Note:** `<number>`: The number displayed in `list` command
+
+* ##### Exmaple:
 ```
 $ kbswitch.exe list
 0       US
 1       Japanese
 2       Chinese (Simplified) - US Keyboard
 ```
-
-- #### `set <number>`
-
-switch to the given keyboard layout  
-`<number>`: The number displayed in `list` command
+Then
+* `kbswitch.exe set 0` will switch to `US` keyboard
+* `kbswitch.exe set 1` will switch to `Janpanese` keyboard
+* `kbswitch.exe set 2` will switch to `Chinese (Simplified) - US Keyboard` keyboard
 
 - #### `cache`
 
@@ -29,7 +33,7 @@ save the current keyboard layout state
 
 - #### `restore`
 
-restore to the saved state
+restore the saved state
 
 - #### `help`
 
@@ -52,7 +56,7 @@ augroup KeyboardLayoutSwitch
 augroup END
 ```
 
-**Note**: This should also works in WSL.
+**Note**: This also works in WSL.
 
 #### Vim Emulators (VSCodeVim, VsVim etc.)
 
@@ -79,7 +83,7 @@ nnoremap gI :!kbswitch.exe restore<CR>gI
 
 ## Compatibility
 
-I don't really know. But it just works on Windows 11 (64bit).
+I don't really know. But I guess it should at least work in Windows 8+ (I'm using Windows 11 64bit)
 
 ## Special Thanks
 

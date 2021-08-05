@@ -15,7 +15,7 @@ namespace fs = std::filesystem;
 
 // input locale identifer = HKL (keyboard layout handle)
 
-void writeln(const std::wstring &text, DWORD handle = STD_OUTPUT_HANDLE);
+void writeln(const std::wstring &text = L"", DWORD handle = STD_OUTPUT_HANDLE);
 
 void writelnerr(const std::wstring &text);
 
@@ -89,7 +89,7 @@ int wmain(int argc, wchar_t **argv) {
 
     std::vector<std::wstring> keyboardList = get_user_klid_list();
 
-    if (number < 0 || number >= keyboardList.size()) {
+    if (number < 0 || static_cast<std::size_t>(number) >= keyboardList.size()) {
       writelnerr(L"[Error] set <number>: Out of range.");
       writelnerr(L"The valid range is [0," +
                  std::to_wstring(keyboardList.size()) + L").");
@@ -117,8 +117,8 @@ int wmain(int argc, wchar_t **argv) {
 
 void writeln(const std::wstring &text, DWORD handle) {
   auto hOutput = GetStdHandle(handle);
-  WriteConsole(hOutput, text.c_str(), static_cast<int>(text.size()),
-      nullptr, nullptr);
+  WriteConsole(
+      hOutput, text.c_str(), static_cast<int>(text.size()), nullptr, nullptr);
   WriteConsole(hOutput, L"\n", 1, nullptr, nullptr);
 }
 
@@ -136,7 +136,7 @@ std::vector<std::wstring> convert_args(int argc, wchar_t **argv) {
 
 void print_help() {
   writeln(L"usage: kbswitch <command> [<args>]");
-  writeln(L"");
+  writeln();
   writeln(L"available commands:");
   writeln(L"list          list all installed keyboard layouts");
   writeln(L"set <number>  switch to the given keyboard layout");
@@ -179,6 +179,7 @@ std::vector<std::wstring> get_user_klid_list() {
 }
 
 void set_keyboard_layout(HWND hwnd, const std::wstring &klid) {
+  // get HKL from KLID
   HKL keyboard = LoadKeyboardLayout(klid.c_str(), KLF_ACTIVATE);
   PostMessage(
       hwnd, WM_INPUTLANGCHANGEREQUEST, 0, reinterpret_cast<LPARAM>(keyboard));
@@ -186,16 +187,28 @@ void set_keyboard_layout(HWND hwnd, const std::wstring &klid) {
 
 fs::path get_temp_file_path() {
   fs::path tempDir = fs::temp_directory_path();
-  fs::path tempFile(L".kbswitch_temp");
+  fs::path tempFile(L"_kbswitch_temp");
   return tempDir / tempFile;
 }
 
 void cache_keyborad_layout_state() {
-  std::wofstream ofs;
-  ofs.open(get_temp_file_path(), std::ios::out);
-  std::wstring buffer(KL_NAMELENGTH, '\0');
-  GetKeyboardLayoutName(buffer.data());
-  ofs << buffer;
+  auto tempFilePath = get_temp_file_path();
+
+  std::unique_ptr<wchar_t[]> buffer(new wchar_t[KL_NAMELENGTH]);
+  GetKeyboardLayoutName(buffer.get());
+
+  // To avoid unnecessary disk writes
+  if (fs::exists(tempFilePath)) {
+    std::wifstream ifs(tempFilePath);
+    std::wstring cache;
+    ifs >> cache;
+    if (cache == buffer.get()) {
+      return;
+    }
+  }
+
+  std::wofstream ofs(tempFilePath);
+  ofs << buffer.get();
 }
 
 bool restore_keyboard_layout_state() {
@@ -204,11 +217,11 @@ bool restore_keyboard_layout_state() {
   if (!fs::exists(tempFilePath)) {
     return false;
   }
+  std::wifstream ifs(tempFilePath);
 
-  std::wifstream ifs;
-  ifs.open(tempFilePath, std::ios::in);
-  std::wstring buffer(KL_NAMELENGTH, '\0');
+  std::wstring buffer;
   ifs >> buffer;
+
   set_keyboard_layout(GetForegroundWindow(), buffer);
 
   return true;
