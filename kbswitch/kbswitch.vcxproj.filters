@@ -18,9 +18,24 @@
     <ClCompile Include="kbswitch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="kbutil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="cli.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="winreg.hpp">
+    <ClInclude Include="winreg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="kbdef.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="kbutil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cli.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

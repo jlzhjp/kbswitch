@@ -1,6 +1,6 @@
 ﻿# kbswitch
 
-> a simple utility that helps you switch keyboard layout in Windows
+> a simple commandline utility that helps you switch keyboard layout in Windows
 
 ## Usage
 
@@ -10,17 +10,17 @@
 list all installed keyboard layouts
 
 
-- #### `set <number>`
+- #### `set <index>`
 
 switch to the given keyboard layout  
-**Note:** `<number>`: The number displayed in `list` command
+**Note:** `<index>`: The index displayed in `list` command
 
 * ##### Exmaple:
 ```
 $ kbswitch.exe list
-0       US
-1       Japanese
-2       Chinese (Simplified) - US Keyboard
+0  =>  US
+1  =>  Japanese
+2  =>  Chinese (Simplified) - US Keyboard
 ```
 Then
 * `kbswitch.exe set 0` will switch to `US` keyboard
@@ -44,7 +44,7 @@ show help message
 
 1. Make sure kbswitch.exe is in your `PATH`.
 2. Add the following lines to your (Neo)Vim / vim emulator 's configuation file.  
-**Note**: Don't forget to change the `<number>` of `set` command.
+**Note**: Don't forget to change the `<index>` of `set` command.
 
 #### (Neo)Vim
 
@@ -79,7 +79,7 @@ nnoremap gI :!kbswitch.exe restore<CR>gI
 ## Permission
 
 - This program need to read from the registry.
-- This program need to wirte to the `%TEMP%` directory.
+- This program need to write to the `%TEMP%` directory.
 
 ## Compatibility
 
@@ -90,4 +90,5 @@ I don't really know. But I guess it should at least work in Windows 8+ (I'm usin
 [GiovanniDicanio/WinReg](https://github.com/GiovanniDicanio/WinReg)
 
 ## LICENSE
+
 MIT
