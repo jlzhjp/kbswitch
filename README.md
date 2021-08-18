@@ -7,12 +7,17 @@
 ### Commands
 
 - #### `list`
+
 list all installed keyboard layouts
 
+- #### `get <index>`
+
+get the index of current keyboard layout
 
 - #### `set <index>`
 
 switch to the given keyboard layout  
+
 **Note:** `<index>`: The index displayed in `list` command
 
 * ##### Exmaple:
@@ -38,6 +43,10 @@ restore the saved state
 - #### `help`
 
 show help message
+
+- #### `version`
+
+show the current version
 
 
 ### For Vim / NeoVim / Vim Emulator users

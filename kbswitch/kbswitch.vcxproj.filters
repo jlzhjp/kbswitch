@@ -24,6 +24,12 @@
     <ClCompile Include="cli.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cliutil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dbg.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="winreg.h">
@@ -36,6 +42,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="cli.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="dbg.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="cliutil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
