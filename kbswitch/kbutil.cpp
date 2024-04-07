@@ -56,7 +56,7 @@ std::wstring get_current_klid() {
   DWORD id = GetWindowThreadProcessId(hwnd, nullptr);
   HKL hkl = GetKeyboardLayout(id);
 
-  // work around https://stackoverflow.com/questions/64995173
+  // workaround https://stackoverflow.com/questions/64995173
   ActivateKeyboardLayout(hkl, 0);
 
   std::unique_ptr<wchar_t[]> buffer(new wchar_t[KL_NAMELENGTH]);

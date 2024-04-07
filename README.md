@@ -1,6 +1,6 @@
 ﻿# kbswitch
 
-> a simple commandline utility that helps you switch keyboard layout in Windows
+a command line utility that helps you switch keyboard layout in Windows, especially made for vim.
 
 ## Usage
 
@@ -16,21 +16,22 @@ get the index of current keyboard layout
 
 - #### `set <index>`
 
-switch to the given keyboard layout  
+switch to the given keyboard layout
 
 **Note:** `<index>`: The index displayed in `list` command
 
 * ##### Exmaple:
 ```
-$ kbswitch.exe list
-0  =>  US
-1  =>  Japanese
-2  =>  Chinese (Simplified) - US Keyboard
+0  =>  Chinese (Traditional) - US Keyboard
+1  =>  US
+2  =>  Japanese
+3  =>  Chinese (Simplified) - US Keyboard
 ```
 Then
-* `kbswitch.exe set 0` will switch to `US` keyboard
-* `kbswitch.exe set 1` will switch to `Janpanese` keyboard
-* `kbswitch.exe set 2` will switch to `Chinese (Simplified) - US Keyboard` keyboard
+* `kbswitch.exe set 0`: switch to `Chinese (Traditional) - US Keyboard` keyboard
+* `kbswitch.exe set 1`: switch to `US` keyboard
+* `kbswitch.exe set 2`: switch to `Janpanese` keyboard
+* `kbswitch.exe set 3`: switch to `Chinese (Simplified) - US Keyboard` keyboard
 
 - #### `cache`
 
@@ -49,41 +50,34 @@ show help message
 show the current version
 
 
-### For Vim / NeoVim / Vim Emulator users
+### How to use it in Neovim
 
 1. Make sure kbswitch.exe is in your `PATH`.
-2. Add the following lines to your (Neo)Vim / vim emulator 's configuation file.  
+2. Add the following lines to your init.lua
+
 **Note**: Don't forget to change the `<index>` of `set` command.
 
-#### (Neo)Vim
+```lua
+local kb_switch_group = vim.api.nvim_create_augroup("KbSwitch", { clear = true })
 
-```vim
-augroup KeyboardLayoutSwitch
-    autocmd!
-    autocmd InsertLeave * :silent !kbswitch.exe restore
-    autocmd InsertEnter * :silent !kbswitch.exe cache && kbswitch.exe set 0
-augroup END
+vim.api.nvim_create_autocmd("InsertLeave", {
+  pattern = "*",
+  group = kb_switch_group,
+  callback = function()
+    vim.fn.jobstart("kbswitch cache && kbswitch.exe set 1")
+  end
+})
+
+vim.api.nvim_create_autocmd("InsertEnter", {
+  pattern = "*",
+  group = kb_switch_group,
+  callback = function()
+    vim.fn.jobstart("kbswitch restore")
+  end
+})
 ```
 
 **Note**: This also works in WSL.
-
-#### Vim Emulators (VSCodeVim, VsVim etc.)
-
-As most of the vim emulators do not supprot `autocmd`, we have to use key map here.
-```vim
-inoremap <Esc> <Esc>:!kbswitch.exe cache && kbswitch.exe set 0<CR>
-
-nnoremap i :!kbswitch.exe restore<CR>i
-nnoremap I :!kbswitch.exe restore<CR>I
-nnoremap o :!kbswitch.exe restore<CR>o
-nnoremap O :!kbswitch.exe restore<CR>O
-nnoremap a :!kbswitch.exe restore<CR>a
-nnoremap A :!kbswitch.exe restore<CR>A
-nnoremap cc :!kbswitch.exe restore<CR>cc
-nnoremap C :!kbswitch.exe restore<CR>C
-nnoremap gi :!kbswitch.exe restore<CR>gi
-nnoremap gI :!kbswitch.exe restore<CR>gI
-```
 
 ## Permission
 
