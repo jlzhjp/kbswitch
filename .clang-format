@@ -1,14 +1,14 @@
 ---
-AlignAfterOpenBracket: DontAlign
+AlignAfterOpenBracket: AlwaysBreak
 AlignConsecutiveMacros: false
 AlignConsecutiveAssignments: false
 AlignConsecutiveDeclarations: false
 AlignEscapedNewlines: Left
-AlignOperands: true
+AlignOperands: false
 AlignTrailingComments: false
-AllowAllArgumentsOnNextLine: true
-AllowAllConstructorInitializersOnNextLine: true
-AllowAllParametersOfDeclarationOnNextLine: true
+AllowAllArgumentsOnNextLine: false
+AllowAllConstructorInitializersOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
 AllowShortBlocksOnASingleLine: false
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: Inline
@@ -20,13 +20,14 @@ AlwaysBreakBeforeMultilineStrings: true
 AlwaysBreakTemplateDeclarations: Yes
 BinPackArguments: false
 BinPackParameters: false
-BreakBeforeBinaryOperators: None
+BreakBeforeBinaryOperators: true
 BreakBeforeTernaryOperators: false
-BreakConstructorInitializers: AfterColon
+BreakConstructorInitializers: BeforeComma
 BreakInheritanceList: AfterColon
 BreakStringLiterals: true
-ColumnLimit: 80
+ColumnLimit: 100
 CompactNamespaces: false
+ContinuationIndentWidth: 2
 Cpp11BracedListStyle: true
 DerivePointerAlignment: false
 FixNamespaceComments: true
@@ -37,7 +38,7 @@ IndentWidth: 2
 IndentWrappedFunctionNames: true
 Language: Cpp
 NamespaceIndentation: None
-PointerAlignment: Right
+PointerAlignment: Left
 ReflowComments: false
 SortIncludes: true
 SortUsingDeclarations: true
@@ -45,7 +46,7 @@ SpaceAfterCStyleCast: false
 SpaceAfterLogicalNot: false
 SpaceAfterTemplateKeyword: true
 SpaceBeforeAssignmentOperators: true
-SpaceBeforeCpp11BracedList: true
+SpaceBeforeCpp11BracedList: false
 SpaceBeforeCtorInitializerColon: true
 SpaceBeforeInheritanceColon: true
 SpaceBeforeParens: ControlStatements

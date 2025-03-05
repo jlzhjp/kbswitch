@@ -1,70 +1,64 @@
 ﻿# kbswitch
 
-a command line utility that helps you switch keyboard layout in Windows, especially made for vim.
+A command line utility for Windows that helps you switch keyboard layouts, especially designed for vim users.
 
 ## Usage
 
-### Commands
+- ### `--list` or `-l`
 
-- #### `list`
+Lists all installed keyboard layouts with their index, KLID (Keyboard Layout ID), layout name and active status.
 
-list all installed keyboard layouts
+- ### `--current`
 
-- #### `get <index>`
+Shows the currently active keyboard layout.
 
-get the index of current keyboard layout
+- ### `--activate <KLID>` or `-a <KLID>`
 
-- #### `set <index>`
+Activates the keyboard layout specified by KLID.
 
-switch to the given keyboard layout
+**Note:** You can specify either the numeric index or the KLID (e.g., "00000409") shown in the `--list` command output.
 
-**Note:** `<index>`: The index displayed in `list` command
-
-* ##### Exmaple:
+* ### Example output of `--list`:
 ```
-0  =>  Chinese (Traditional) - US Keyboard
-1  =>  US
-2  =>  Japanese
-3  =>  Chinese (Simplified) - US Keyboard
+ Index        KLID          Layout Name                  Status
+ -----        ----          -----------                  ------
+   1        00000409        US
+   2        00060409        Colemak
+   3        00000411        Japanese
+   4        00000804        Chinese (Simplified) - US   *Active*
 ```
-Then
-* `kbswitch.exe set 0`: switch to `Chinese (Traditional) - US Keyboard` keyboard
-* `kbswitch.exe set 1`: switch to `US` keyboard
-* `kbswitch.exe set 2`: switch to `Janpanese` keyboard
-* `kbswitch.exe set 3`: switch to `Chinese (Simplified) - US Keyboard` keyboard
 
-- #### `cache`
+Examples:
+* `kbswitch --activate 1` or `kbswitch --activate 00000409`: Activate the US keyboard
+* `kbswitch --activate 2` or `kbswitch --activate 00060409`: Activate the Colemak keyboard
+* `kbswitch --activate 3` or `kbswitch --activate 00000411`: Activate the Japanese keyboard
+* `kbswitch --activate 4` or `kbswitch --activate 00000804`: Activate the Chinese (Simplified) keyboard
 
-save the current keyboard layout state
+- ### `--cache` or `-c`
 
-- #### `restore`
+Saves the current keyboard layout to a temporary file for later restoration.
 
-restore the saved state
+- ### `--restore` or `-r`
 
-- #### `help`
+Restores the previously cached keyboard layout.
 
-show help message
+- ### `--version` or `-v`
 
-- #### `version`
-
-show the current version
-
+Shows the current version of kbswitch.
 
 ### How to use it in Neovim
 
-1. Make sure kbswitch.exe is in your `PATH`.
-2. Add the following lines to your init.lua
-
-**Note**: Don't forget to change the `<index>` of `set` command.
+1. Make sure `kbswitch.exe` is in your `PATH`.
+2. Add the following lines to your `init.lua`:
 
 ```lua
-local kb_switch_group = vim.api.nvim_create_augroup("KbSwitch", { clear = true })
+local kb_switch_group = vim.api.nvim_create_augroup("KBSwitch", { clear = true })
 
 vim.api.nvim_create_autocmd("InsertLeave", {
   pattern = "*",
   group = kb_switch_group,
   callback = function()
-    vim.fn.jobstart("kbswitch cache && kbswitch.exe set 1")
+    vim.fn.jobstart("kbswitch --cache && kbswitch --activate 00000409") -- Replace with your preferred layout KLID
   end
 })
 
@@ -72,25 +66,23 @@ vim.api.nvim_create_autocmd("InsertEnter", {
   pattern = "*",
   group = kb_switch_group,
   callback = function()
-    vim.fn.jobstart("kbswitch restore")
+    vim.fn.jobstart("kbswitch --restore")
   end
 })
 ```
 
-**Note**: This also works in WSL.
+**Note**: This setup allows Neovim to automatically:
+1. Cache your current keyboard layout and switch to a specified layout when leaving insert mode
+2. Restore your previous layout when entering insert mode
 
-## Permission
+## Requirements and Permissions
 
-- This program need to read from the registry.
-- This program need to write to the `%TEMP%` directory.
+- This program requires read access to the Windows registry to query keyboard layouts.
+- This program writes to the `%TEMP%` directory to store cached keyboard layout information.
 
 ## Compatibility
 
-I don't really know. But I guess it should at least work in Windows 8+ (I'm using Windows 11 64bit)
-
-## Special Thanks
-
-[GiovanniDicanio/WinReg](https://github.com/GiovanniDicanio/WinReg)
+Compatible with modern Windows systems (Windows 8+). Tested on Windows 11 64-bit.
 
 ## LICENSE
 
