@@ -1,3 +1,6 @@
 {
-  "cmake.buildDirectory": "${workspaceFolder}/build"
+  "cmake.buildDirectory": "${workspaceFolder}/build",
+  "clangd.arguments": [
+    "--compile-commands-dir=${workspaceFolder}/build/clang"
+  ]
 }

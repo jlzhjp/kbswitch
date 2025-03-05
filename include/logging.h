@@ -14,7 +14,7 @@ protected:
 } // namespace kbswitch
 
 template <typename T>
-spdlog::logger& kbswitch::LoggerMixin::logger(this T& _) {
+spdlog::logger& kbswitch::LoggerMixin::logger(this T&) {
   static std::shared_ptr<spdlog::logger> logger = spdlog::stderr_color_mt(typeid(T).name());
   return *logger;
 }

@@ -101,7 +101,11 @@ auto kbswitch::KeyboardLayoutPreloadEntry::query_info() const -> KeyboardLayoutE
   HRESULT hr = wil::AdaptFixedSizeToAllocatedResult<std::wstring, 256>(
     layout_display_name,
     [&display_name_resource](PWSTR value, size_t value_size, size_t* next_size) {
-      HRESULT hr = SHLoadIndirectString(display_name_resource.c_str(), value, value_size, nullptr);
+      HRESULT hr = SHLoadIndirectString(
+        display_name_resource.c_str(),
+        value,
+        static_cast<UINT>(value_size),
+        nullptr);
       if (hr == STRSAFE_E_INSUFFICIENT_BUFFER) {
         if (value_size > 65535) return hr;
         *next_size = value_size * 2;
