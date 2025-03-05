@@ -29,7 +29,7 @@ configure_file(
 add_executable(kbswitch "src/main.cc")
 target_compile_features(kbswitch PRIVATE cxx_std_23)
 target_compile_options(kbswitch PRIVATE
-  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX>
+  $<$<CXX_COMPILER_ID:MSVC>:/W4 /WX /utf-8>
   $<$<NOT:$<CXX_COMPILER_ID:MSVC>>:
     -Wall -Wextra -Wpedantic
     -Wno-language-extension-token
