@@ -2,11 +2,16 @@
 #include <print>
 
 #include <argparse/argparse.hpp>
+#include <spdlog/spdlog.h>
 
 #include "command_executor.h"
 #include "kbswitch/version.h"
 
 int main(int argc, char* argv[]) {
+#if (defined(NDEBUG))
+  spdlog::set_level(spdlog::level::off);
+#endif
+
   kbswitch::CommandExecutor command_executor;
   argparse::ArgumentParser program{"kbswitch", kbswitch::kVersion};
 
