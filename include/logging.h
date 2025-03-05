@@ -1,6 +1,6 @@
 #pragma once
 
-#include <spdlog/logger.h>
+#include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>
 
 namespace kbswitch {
@@ -14,7 +14,7 @@ protected:
 } // namespace kbswitch
 
 template <typename T>
-spdlog::logger& kbswitch::LoggerMixin::logger(this T& self) {
+spdlog::logger& kbswitch::LoggerMixin::logger(this T& _) {
   static std::shared_ptr<spdlog::logger> logger = spdlog::stderr_color_mt(typeid(T).name());
   return *logger;
 }

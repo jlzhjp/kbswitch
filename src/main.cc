@@ -4,26 +4,27 @@
 #include <argparse/argparse.hpp>
 
 #include "command_executor.h"
+#include "kbswitch/version.h"
 
 int main(int argc, char* argv[]) {
   kbswitch::CommandExecutor command_executor;
-  argparse::ArgumentParser program{"kbswitch"};
+  argparse::ArgumentParser program{"kbswitch", kbswitch::kVersion};
 
   auto& group = program.add_mutually_exclusive_group();
 
-  group.add_argument("-v", "--version").nargs(0).flag().help("show program version");
   group.add_argument("-l", "--list").nargs(0).flag().help("list available layouts");
   group.add_argument("--current").nargs(0).flag().help("get current keyboard layout");
-  group.add_argument("-a", "--activate").help("activate keyboard layout by KLID");
+  group.add_argument("-a", "--activate")
+    .nargs(1)
+    .metavar("KLID")
+    .help("activate keyboard layout by KLID");
   group.add_argument("-c", "--cache").nargs(0).flag().help("cache current layout");
   group.add_argument("-r", "--restore").nargs(0).flag().help("restore cached layout");
 
   try {
     program.parse_args(argc, argv);
 
-    if (program["--version"] == true) {
-      std::println("kbswitch v1.0.0");
-    } else if (program.is_used("--list")) {
+    if (program.is_used("--list")) {
       command_executor.query_keyboard_layouts();
     } else if (program.is_used("--current")) {
       command_executor.query_current_active_layout();
@@ -40,7 +41,7 @@ int main(int argc, char* argv[]) {
     }
   } catch (std::exception& e) {
     std::println(std::cerr, "{}", e.what());
-    std::cerr << program;
+    std::cerr << program << std::endl;
     return 1;
   }
 

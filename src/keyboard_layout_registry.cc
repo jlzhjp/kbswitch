@@ -5,7 +5,6 @@
 
 #define WIN32_LEAN_AND_MEAN
 #define NOMINMAX
-
 #include <Shlwapi.h>
 #include <Windows.h>
 
@@ -43,6 +42,7 @@ kbswitch::KeyboardLayoutPreloadRegistry::KeyboardLayoutPreloadRegistry() {
       if (substitute.has_value()) {
         logger().info("Substitute found for {}: {}", wstr2con(klid), wstr2con(substitute.value()));
       }
+
       entries.push_back(KeyboardLayoutPreloadEntry{
         .index = index,
         .klid = substitute.value_or(klid),
@@ -75,7 +75,7 @@ std::optional<std::wstring>
         L"Keyboard Layout\\Substitutes",
         target_hkey))) {
     logger().info(
-      "No substitutes in `Keyboard Layout\\Substitutes` registry key, KLID: {}",
+      "Failed to open `Keyboard Layout\\Substitutes` registry key",
       wstr2con(klid));
     return std::nullopt;
   }

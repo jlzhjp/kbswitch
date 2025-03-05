@@ -16,8 +16,6 @@ Shows the currently active keyboard layout.
 
 Activates the keyboard layout specified by KLID.
 
-**Note:** You can specify either the numeric index or the KLID (e.g., "00000409") shown in the `--list` command output.
-
 * ### Example output of `--list`:
 ```
  Index        KLID          Layout Name                  Status
