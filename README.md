@@ -27,10 +27,10 @@ Activates the keyboard layout specified by KLID.
 ```
 
 Examples:
-* `kbswitch --activate 1` or `kbswitch --activate 00000409`: Activate the US keyboard
-* `kbswitch --activate 2` or `kbswitch --activate 00060409`: Activate the Colemak keyboard
-* `kbswitch --activate 3` or `kbswitch --activate 00000411`: Activate the Japanese keyboard
-* `kbswitch --activate 4` or `kbswitch --activate 00000804`: Activate the Chinese (Simplified) keyboard
+* `kbswitch --activate 00000409`: Activate the US keyboard
+* `kbswitch --activate 00060409`: Activate the Colemak keyboard
+* `kbswitch --activate 00000411`: Activate the Japanese keyboard
+* `kbswitch --activate 00000804`: Activate the Chinese (Simplified) keyboard
 
 - ### `--cache` or `-c`
 
